@@ -8,16 +8,14 @@ package com.mycompany.admin.controller.login;
  *
  * @author Aditya
  */
-
-
 import com.mycompany.admin.model.login.IAuthRepository;
+import com.mycompany.admin.util.NavigationService;
 import com.mycompany.admin.view.login.AdminLogin;
-import com.mycompany.admin.view.kelola_data_pelanggan.DashboardMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginController {
-    
+
     private final AdminLogin view;
     private final IAuthRepository repository;
 
@@ -25,12 +23,13 @@ public class LoginController {
     public LoginController(AdminLogin view, IAuthRepository repository) {
         this.view = view;
         this.repository = repository;
-        
+
         // Pasang listener ke View
         this.view.addLoginListener(new LoginListener());
     }
 
     class LoginListener implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             String username = view.getUsername();
@@ -46,12 +45,8 @@ public class LoginController {
             boolean isLoginSuccess = repository.login(username, password);
 
             if (isLoginSuccess) {
-                // Login Berhasil
-                view.dispose(); // Tutup login window
-                DashboardMenu menu = new DashboardMenu();
-                menu.setVisible(true); // Buka dashboard
+                NavigationService.toDashboard(view);
             } else {
-                // Login Gagal
                 view.showErrorMessage("Username atau Password salah!");
             }
         }

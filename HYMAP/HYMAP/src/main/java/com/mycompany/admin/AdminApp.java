@@ -29,7 +29,7 @@ public class AdminApp {
             // 4. Tampilkan View
             view.setVisible(true);
             
-            String passwordBaru = "#@AdminHydro&Map";
+            String passwordBaru = "1";
             String hashedPassword = BCrypt.hashpw(passwordBaru, BCrypt.gensalt());
             System.out.println(hashedPassword);
         });
