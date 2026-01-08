@@ -8,7 +8,7 @@ import com.mycompany.admin.view.kelola_data_pelanggan.DataPelanggan;
 import com.mycompany.admin.view.kelola_data_pelanggan.TambahDataPelanggan;
 import com.mycompany.admin.model.kelola_data_pelanggan.IPelangganRepository;
 import com.mycompany.admin.model.kelola_data_pelanggan.Pelanggan;
-import com.mycompany.admin.view.kelola_data_pelanggan.DashboardMenu;
+import com.mycompany.admin.view.DashboardMenu;
 import com.mycompany.admin.view.kelola_data_pelanggan.EditDataPelanggan;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

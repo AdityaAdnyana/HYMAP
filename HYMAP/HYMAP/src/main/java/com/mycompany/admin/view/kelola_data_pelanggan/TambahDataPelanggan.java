@@ -6,6 +6,7 @@ package com.mycompany.admin.view.kelola_data_pelanggan;
 
 
 //Database
+import com.mycompany.admin.view.DashboardMenu;
 import com.mycompany.admin.config.DatabaseConnection;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
