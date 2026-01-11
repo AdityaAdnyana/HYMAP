@@ -11,23 +11,26 @@ import javax.swing.JFrame;
 import com.mycompany.admin.view.DashboardMenu;
 import com.mycompany.admin.controller.DashboardController;
 import com.mycompany.admin.controller.InfoPenjualan.InfoPenjualanController;
+import com.mycompany.admin.controller.SetHargaDefault.SetHargaController;
 import com.mycompany.admin.controller.kelola_data_pelanggan.PelangganController;
 import com.mycompany.admin.view.kelola_data_sopir.DataSopir;
 import com.mycompany.admin.model.kelola_data_sopir.SopirRepository;
 import com.mycompany.admin.controller.kelola_data_sopir.SopirController;
 import com.mycompany.admin.model.AturJadwalPengiriman.JadwalRepository;
 import com.mycompany.admin.model.InfoPenjualan.InfoPenjualanRepository;
+import com.mycompany.admin.model.SetHarga.SetHargaRepository;
 import com.mycompany.admin.model.kelola_data_pelanggan.PelangganRepository;
 import com.mycompany.admin.view.AturJadwalPengiriman.JadwalPengiriman;
 import com.mycompany.admin.view.AturJadwalPengiriman.PilihArmada;
 import com.mycompany.admin.view.InfoPenjualan.CetakLaporan;
+import com.mycompany.admin.view.SetHargaDefault.SetHargaDefault;
 import com.mycompany.admin.view.kelola_data_pelanggan.DataPelanggan;
 // ... import lainnya
 
 public class NavigationService {
 
     public static void toDashboard(JFrame currentFrame) {
-        DashboardMenu view = new DashboardMenu();     
+        DashboardMenu view = new DashboardMenu();
         new DashboardController(view);
         view.setVisible(true);
         currentFrame.dispose();
@@ -40,7 +43,7 @@ public class NavigationService {
         view.setVisible(true);
         currentFrame.dispose();
     }
-    
+
     public static void toKelolaPelanggan(JFrame currentFrame) {
         DataPelanggan view = new DataPelanggan();
         PelangganRepository repo = new PelangganRepository();
@@ -48,7 +51,7 @@ public class NavigationService {
         view.setVisible(true);
         currentFrame.dispose();
     }
-    
+
     public static void toInfoPenjualan(JFrame currentFrame) {
         CetakLaporan view = new CetakLaporan();
         InfoPenjualanRepository repo = new InfoPenjualanRepository();
@@ -56,12 +59,19 @@ public class NavigationService {
         view.setVisible(true);
         currentFrame.dispose();
     }
-    
-    public static void toAturJadwalPengiriman(JFrame currentFrame){
+
+    public static void toAturJadwalPengiriman(JFrame currentFrame) {
         PilihArmada view = new PilihArmada();
         JadwalRepository repo = new JadwalRepository();
         new JadwalController(view, repo);
         view.setVisible(true);
+        currentFrame.dispose();
+    }
+
+    public static void toSetHargaDefault(JFrame currentFrame) {
+        SetHargaDefault view = new SetHargaDefault();
+        SetHargaRepository repo = new SetHargaRepository();
+        new SetHargaController(view, repo);
         currentFrame.dispose();
     }
 }
