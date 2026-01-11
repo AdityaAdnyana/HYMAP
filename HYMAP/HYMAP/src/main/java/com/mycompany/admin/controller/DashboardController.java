@@ -38,6 +38,7 @@ public class DashboardController {
         view.addCetakLaporanListener(e -> navigateToCetakLaporan());
         view.addUpdateStatusPembayaranListener(e -> navigateToUpdateStatus());
         view.addAturJadwalListener(e -> navigateToAturjadwal());
+        view.addKelolaGallonListener(e -> navigateToKelolaGallon(view));
     }
     
     // --- NAVIGATION LOGIC ---
@@ -62,6 +63,10 @@ public class DashboardController {
     
     private void navigateToAturjadwal() {
         NavigationService.toAturJadwalPengiriman(view);
+    }
+
+    private void navigateToKelolaGallon(DashboardMenu parentView) {
+        NavigationService.toKelolaGallon(parentView);
     }
     
 }

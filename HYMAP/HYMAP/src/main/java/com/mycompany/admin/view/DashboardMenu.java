@@ -51,6 +51,10 @@ public class DashboardMenu extends javax.swing.JFrame {
     public void addUpdateStatusPembayaranListener(ActionListener listener) {
         UPDATE_STATUS_PEMBAYARAN_BUTTON.addActionListener(listener);
     }
+
+    public void addKelolaGallonListener(ActionListener listener) {
+        KELOLA_DATA_GALON_BUTTON.addActionListener(listener);
+    }
     
     private void toggleSidebar(boolean showMenu) {
         PANEL_MENU.setVisible(showMenu);
