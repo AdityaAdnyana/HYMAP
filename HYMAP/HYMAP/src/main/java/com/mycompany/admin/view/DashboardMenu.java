@@ -4,6 +4,14 @@
  */
 package com.mycompany.admin.view;
 
+import com.mycompany.admin.controller.AturJadwalPengiriman.JadwalController;
+import com.mycompany.admin.controller.InfoPenjualan.InfoPenjualanController;
+import com.mycompany.admin.controller.kelola_data_pelanggan.PelangganController;
+import com.mycompany.admin.model.AturJadwalPengiriman.IJadwalRepository;
+import com.mycompany.admin.model.AturJadwalPengiriman.JadwalRepository;
+import com.mycompany.admin.model.InfoPenjualan.InfoPenjualanRepository;
+import com.mycompany.admin.model.kelola_data_pelanggan.PelangganRepository;
+import com.mycompany.admin.view.AturJadwalPengiriman.PilihArmada;
 import com.mycompany.admin.view.kelola_data_pelanggan.DataPelanggan;
 import java.awt.event.ActionListener;
 
@@ -20,9 +28,6 @@ public class DashboardMenu extends javax.swing.JFrame {
         // Posisi di tengah layar
         this.setLocationRelativeTo(null);
     }
-
-    // --- PENGHUBUNG KE CONTROLLER (SOLID: Open/Closed Principle) ---
-    // Kita membuka akses untuk menambahkan listener tanpa mengubah kode UI internal
     
     public void addKelolaSopirListener(ActionListener listener) {
         KELOLA_DATA_SOPIR_TBUTTON.addActionListener(listener);
@@ -36,15 +41,17 @@ public class DashboardMenu extends javax.swing.JFrame {
         INFO_PENJUALAN_BUTTON.addActionListener(listener);
     }
     
-    // ... Tambahkan listener untuk tombol lain sesuai kebutuhan ...
-
-    // Logika UI murni (Sidebar toggle) boleh tetap di View atau dipindah ke Controller.
-    // Untuk kemudahan, biarkan UI Logic sederhana di sini, tapi Navigation Logic harus keluar.
+    public void addAturJadwalPengiriman(ActionListener listener){
+        ATUR_JADWAL_KIRIMAN_BUTTON.addActionListener(listener);
+    }
+    
     private void toggleSidebar(boolean showMenu) {
         PANEL_MENU.setVisible(showMenu);
-        MENU_BUTTON.setVisible(showMenu);     // Tombol hamburger di dalam panel
-        MENU_BUTTON1.setVisible(!showMenu);   // Tombol hamburger di luar panel
+        MENU_BUTTON.setVisible(showMenu); 
+        MENU_BUTTON1.setVisible(!showMenu); 
     }
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -394,11 +401,11 @@ public class DashboardMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_ATUR_JADWAL_KIRIMAN_BUTTONActionPerformed
 
     private void MENU_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_BUTTONActionPerformed
-
+        toggleSidebar(false);
     }//GEN-LAST:event_MENU_BUTTONActionPerformed
 
     private void KELOLA_DATA_PELANGGAN_TBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KELOLA_DATA_PELANGGAN_TBUTTONActionPerformed
-
+        
     }//GEN-LAST:event_KELOLA_DATA_PELANGGAN_TBUTTONActionPerformed
 
     private void KELOLA_DATA_SOPIR_TBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KELOLA_DATA_SOPIR_TBUTTONActionPerformed
@@ -406,7 +413,7 @@ public class DashboardMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_KELOLA_DATA_SOPIR_TBUTTONActionPerformed
 
     private void CETAK_LAPORAN_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CETAK_LAPORAN_BUTTONActionPerformed
-
+        
     }//GEN-LAST:event_CETAK_LAPORAN_BUTTONActionPerformed
 
     private void UPDATE_STATUS_PEMBAYARAN_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UPDATE_STATUS_PEMBAYARAN_BUTTONActionPerformed
@@ -414,7 +421,7 @@ public class DashboardMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_UPDATE_STATUS_PEMBAYARAN_BUTTONActionPerformed
 
     private void MENU_BUTTON1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_BUTTON1ActionPerformed
-  
+        toggleSidebar(true);
     }//GEN-LAST:event_MENU_BUTTON1ActionPerformed
 
     private void KELOLA_DATA_GALON_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KELOLA_DATA_GALON_BUTTONActionPerformed

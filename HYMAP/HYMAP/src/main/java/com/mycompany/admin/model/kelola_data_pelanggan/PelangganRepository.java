@@ -34,9 +34,29 @@ public class PelangganRepository implements IPelangganRepository {
 
     @Override
     public List<Pelanggan> getAllPelanggan() {
-        // ... Implementasi select * from pelanggan ...
-        // (Kode ini dipindahkan dari Controller atau View lama)
-        return new ArrayList<>(); // Placeholder
+        List<Pelanggan> listPelanggan = new ArrayList<>();
+        String sql = "SELECT * FROM pelanggan";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nama = rs.getString("nama");
+                String alamat = rs.getString("alamat");
+                String noTelepon = rs.getString("no_telepon");
+                String daerah = rs.getString("daerah_kiriman");
+
+                Pelanggan p = new Pelanggan(id, nama, alamat, noTelepon, daerah);
+                
+                listPelanggan.add(p);
+            }
+        } catch (SQLException e) {
+            System.err.println("Gagal mengambil data pelanggan: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listPelanggan;
     }
 
     @Override
@@ -50,6 +70,19 @@ public class PelangganRepository implements IPelangganRepository {
             pstmt.setString(4, p.getDaerahKiriman());
             pstmt.setInt(5, p.getId());
 
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean deletePelanggan(int id) {
+        String sql = "DELETE FROM pelanggan WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

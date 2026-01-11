@@ -9,7 +9,8 @@ package com.mycompany.admin.view.kelola_data_pelanggan;
 import com.mycompany.admin.view.kelola_data_pelanggan.table_add_button.TableActionCellEditor;
 import com.mycompany.admin.view.kelola_data_pelanggan.table_add_button.TableActionCellRenderer;
 import com.mycompany.admin.view.kelola_data_pelanggan.table_add_button.TableActionEvent;
-import com.mycompany.admin.model.kelola_data_pelanggan.Pelanggan; // Import Model
+import com.mycompany.admin.model.kelola_data_pelanggan.Pelanggan;
+import com.mycompany.admin.view.DashboardMenu;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
@@ -21,12 +22,9 @@ public class DataPelanggan extends javax.swing.JFrame {
     
     public DataPelanggan() {
         initComponents();
-        this.setLocationRelativeTo(null); // Tambahan agar di tengah
+        this.setLocationRelativeTo(null);
     }
 
-    // --- LISTENER ---
-    
-    // Listener untuk Tombol Tambah
     public void addTambahListener(ActionListener listener) {
         TAMBAH_BUTTON.addActionListener(listener);
     }
@@ -47,7 +45,7 @@ public class DataPelanggan extends javax.swing.JFrame {
     
     public void setTableData(List<Pelanggan> pelangganList) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); // Reset tabel
+        model.setRowCount(0);
         
         for (Pelanggan p : pelangganList) {
             model.addRow(new Object[]{
@@ -55,7 +53,8 @@ public class DataPelanggan extends javax.swing.JFrame {
                 p.getNama(), 
                 p.getAlamat(), 
                 p.getNoTelepon(), 
-                p.getDaerahKiriman()
+                p.getDaerahKiriman(),
+                null
             });
         }
     }
@@ -341,11 +340,11 @@ public class DataPelanggan extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TAMBAH_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TAMBAH_BUTTONActionPerformed
-
+        
     }//GEN-LAST:event_TAMBAH_BUTTONActionPerformed
 
     private void MENU_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_BUTTONActionPerformed
-
+       
     }//GEN-LAST:event_MENU_BUTTONActionPerformed
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -365,4 +364,5 @@ public class DataPelanggan extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
+
 }

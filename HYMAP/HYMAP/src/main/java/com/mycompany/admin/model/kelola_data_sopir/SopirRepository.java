@@ -4,8 +4,7 @@
  */
 package com.mycompany.admin.model.kelola_data_sopir;
 
-import com.mycompany.admin.config.DatabaseConnection;
-import org.mindrot.jbcrypt.BCrypt; // Import Library BCrypt
+import com.mycompany.admin.config.DatabaseConnection; // Sesuaikan package koneksi Anda
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class SopirRepository implements ISopirRepository {
                     rs.getString("no_telepon"),
                     rs.getString("armada"),
                     rs.getString("username"),
-                    rs.getString("password") // Ini akan berisi String HASH, bukan plain text
+                    rs.getString("password")
                 ));
             }
         } catch (SQLException e) {
@@ -41,18 +40,13 @@ public class SopirRepository implements ISopirRepository {
     public boolean addSopir(Sopir s) {
         String sql = "INSERT INTO sopir (nama, no_telepon, armada, username, password) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, s.getNama());
             pstmt.setString(2, s.getNoTelepon());
             pstmt.setString(3, s.getArmada());
             pstmt.setString(4, s.getUsername());
-            
-            // --- MODIFIKASI: Hashing Password ---
-            // BCrypt.gensalt() membuat salt acak agar hash selalu unik meskipun password sama
-            String hashedPassword = BCrypt.hashpw(s.getPassword(), BCrypt.gensalt());
-            pstmt.setString(5, hashedPassword); 
-            // ------------------------------------
+            pstmt.setString(5, s.getPassword()); // Sebaiknya di-hash jika memungkinkan
             
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -63,12 +57,6 @@ public class SopirRepository implements ISopirRepository {
 
     @Override
     public boolean updateSopir(Sopir s) {
-        // PERINGATAN LOGIKA: 
-        // Kode ini mengasumsikan setiap kali update, password ikut di-reset/diubah.
-        // Jika user mengosongkan field password di UI, Anda harus menangani logika itu 
-        // (misal: cek jika password kosong, jangan update kolom password).
-        // Di sini saya hash passwordnya dengan asumsi data 's' membawa password baru.
-        
         String sql = "UPDATE sopir SET nama = ?, no_telepon = ?, armada = ?, username = ?, password = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -77,12 +65,7 @@ public class SopirRepository implements ISopirRepository {
             pstmt.setString(2, s.getNoTelepon());
             pstmt.setString(3, s.getArmada());
             pstmt.setString(4, s.getUsername());
-            
-            // --- MODIFIKASI: Hashing Password pada Update ---
-            String hashedPassword = BCrypt.hashpw(s.getPassword(), BCrypt.gensalt());
-            pstmt.setString(5, hashedPassword);
-            // ------------------------------------------------
-            
+            pstmt.setString(5, s.getPassword());
             pstmt.setInt(6, s.getId());
             
             return pstmt.executeUpdate() > 0;

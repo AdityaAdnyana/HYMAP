@@ -8,12 +8,14 @@ package com.mycompany.admin.model.kelola_data_pelanggan;
  *
  * @author Aditya
  */
-
 import java.util.List;
 
 public interface IPelangganRepository {
+
     List<Pelanggan> getAllPelanggan();
+
     boolean addPelanggan(Pelanggan pelanggan);
-     boolean updatePelanggan(Pelanggan pelanggan); // Tambahkan jika perlu
-    // boolean deletePelanggan(int id); // Tambahkan jika perlu
+
+    boolean updatePelanggan(Pelanggan pelanggan);
+    boolean deletePelanggan(int b);
 }

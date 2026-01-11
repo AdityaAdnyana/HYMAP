@@ -71,7 +71,10 @@ public class EditDataPelanggan extends javax.swing.JFrame {
     public void addKembaliListener(ActionListener listener) {
         EDIT_BUTTON1.addActionListener(listener);
     }
-
+    // Listener untuk Tombol Menu (Back to Dashboard)
+    public void addMenuListener(ActionListener listener) {
+        MENU_BUTTON.addActionListener(listener);
+    }
     // --- METODE TAMPILAN DIALOG ---
     // Controller akan memanggil ini, bukan View yang memutuskan kapan muncul
     public void showSuccessDialog() {
@@ -118,7 +121,6 @@ public class EditDataPelanggan extends javax.swing.JFrame {
         BERHASIL_DIPERBARUI_DIALOG = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         ERROR_DIALOG = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -161,33 +163,22 @@ public class EditDataPelanggan extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(205, 228, 223));
 
         jLabel3.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 102, 102));
+        jLabel3.setForeground(new java.awt.Color(0, 102, 51));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("SEMUA KOLOM");
-
-        jLabel10.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("TIDAK BOLEH KOSONG");
+        jLabel3.setText("Berhasil disimpan");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
+                .addGap(66, 66, 66)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
-                .addGap(50, 50, 50))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout BERHASIL_DIPERBARUI_DIALOGLayout = new javax.swing.GroupLayout(BERHASIL_DIPERBARUI_DIALOG.getContentPane());
@@ -681,9 +672,9 @@ public class EditDataPelanggan extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MENU_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_BUTTONActionPerformed
-        DashboardMenu dashboard = new DashboardMenu();
-        dashboard.setVisible(true);
-        this.setVisible(false);
+//        DashboardMenu dashboard = new DashboardMenu();
+//        dashboard.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_MENU_BUTTONActionPerformed
 
     private void NAMA_TEXT_FIELDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NAMA_TEXT_FIELDActionPerformed
@@ -699,50 +690,7 @@ public class EditDataPelanggan extends javax.swing.JFrame {
     }//GEN-LAST:event_NO_TELEPON_TEXT_FIELDActionPerformed
 
     private void EDIT_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EDIT_BUTTONActionPerformed
-        /*String updatedNama = NAMA_TEXT_FIELD.getText();
-        String updatedAlamat = ALAMAT_TEXT_FIELD.getText();
-        String updatedNoTelepon = NO_TELEPON_TEXT_FIELD.getText();
-        
-        parentFrame.updateRowInTable(editingRow, updatedNama, updatedAlamat, updatedNoTelepon);
-        parentFrame.setVisible(true);
-        this.dispose();*/
-        
-//    String updatedNama = NAMA_TEXT_FIELD.getText();
-//    String updatedAlamat = ALAMAT_TEXT_FIELD.getText();
-//    String updatedNoTelepon = NO_TELEPON_TEXT_FIELD.getText();
-//    String daerah = (String) DAERAH_KIRIMAN_COMBO_BOX.getSelectedItem();
-//    
-//    if (updatedNama.isEmpty() || updatedAlamat.isEmpty() || updatedNoTelepon.isEmpty()) {
-//        SEMUA_KOLOM_TIDAK_BOLEH_KOSONG_DIALOG.setVisible(true);
-//        return;
-//    }
-//
-//    String sql = "UPDATE pelanggan SET nama = ?, alamat = ?, no_telepon = ?, daerah_kiriman = ? WHERE id = ?";
-//
-//    try (Connection conn = DatabaseConnection.getConnection();
-//         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//
-//        pstmt.setString(1, updatedNama);
-//        pstmt.setString(2, updatedAlamat);
-//        pstmt.setString(3, updatedNoTelepon);
-//        pstmt.setString(4, daerah);
-//        pstmt.setInt(5, this.pelangganId); // Gunakan ID pelanggan untuk klausa WHERE
-//
-//        int affectedRows = pstmt.executeUpdate();
-//        if (affectedRows > 0) {
-//            BERHASIL_DIPERBARUI_DIALOG.setVisible(true);
-//            // Refresh tabel di frame utama
-//            parentFrame.loadTableData(); 
-//            parentFrame.setVisible(true);
-//            this.dispose();
-//        } else {
-//            ERROR_DIALOG.setVisible(true);
-//        }
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//        DATABASE_ERROR_DIALOG.setVisible(true);
-//        System.out.println("Error: " + e);
-//    }
+
     }//GEN-LAST:event_EDIT_BUTTONActionPerformed
 
     private void EDIT_BUTTON1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EDIT_BUTTON1ActionPerformed
@@ -782,7 +730,6 @@ public class EditDataPelanggan extends javax.swing.JFrame {
     private javax.swing.JLabel NO_TELEPON_TEXT;
     private javax.swing.JTextField NO_TELEPON_TEXT_FIELD;
     private javax.swing.JDialog SEMUA_KOLOM_TIDAK_BOLEH_KOSONG_DIALOG;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

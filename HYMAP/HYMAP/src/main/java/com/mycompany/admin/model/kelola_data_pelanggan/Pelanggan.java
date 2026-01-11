@@ -9,6 +9,7 @@ package com.mycompany.admin.model.kelola_data_pelanggan;
  * @author Aditya
  */
 public class Pelanggan {
+
     private int id;
     private String nama;
     private String alamat;
@@ -23,10 +24,23 @@ public class Pelanggan {
         this.daerahKiriman = daerahKiriman;
     }
 
-    // Getters
-    public int getId() { return id; }
-    public String getNama() { return nama; }
-    public String getAlamat() { return alamat; }
-    public String getNoTelepon() { return noTelepon; }
-    public String getDaerahKiriman() { return daerahKiriman; }
+    public int getId() {
+        return id;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public String getNoTelepon() {
+        return noTelepon;
+    }
+
+    public String getDaerahKiriman() {
+        return daerahKiriman;
+    }
 }

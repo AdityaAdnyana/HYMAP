@@ -28,6 +28,7 @@ public class TambahDataPelanggan extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         // Jangan ada logika lain di constructor
     }
+    
 
     // --- GETTER DATA (Agar Controller bisa membaca input) ---
     public String getNamaInput() {
@@ -54,6 +55,10 @@ public class TambahDataPelanggan extends javax.swing.JFrame {
     public void addKembaliListener(ActionListener listener) {
         jButton2.addActionListener(listener);
     }
+    // Listener untuk Tombol Menu (Back to Dashboard)
+    public void addMenuListener(ActionListener listener) {
+        MENU_BUTTON.addActionListener(listener);
+    }
     
     // --- HELPER UNTUK PESAN ---
     public void showMessage(String message) {
@@ -70,6 +75,8 @@ public class TambahDataPelanggan extends javax.swing.JFrame {
         NO_TELEPON_TEXT_FIELD.setText("");
         DAERAH_KIRIMAN_COMBO_BOX.setSelectedIndex(0);
     }
+    
+   
     // --- BAGIAN GENERATED CODE TETAP SAMA ---
     // PENTING: Hapus isi method jButton1ActionPerformed di Source Code Netbeans
     // Biarkan kosong seperti ini:
@@ -459,9 +466,9 @@ public class TambahDataPelanggan extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MENU_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_BUTTONActionPerformed
-        DashboardMenu dashboard = new DashboardMenu();
-        dashboard.setVisible(true);
-        this.setVisible(false);
+//        DashboardMenu dashboard = new DashboardMenu();
+//        dashboard.setVisible(true);
+//        this.setVisible(false);
     }//GEN-LAST:event_MENU_BUTTONActionPerformed
 
     private void ALAMAT_TEXT_FIELDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ALAMAT_TEXT_FIELDActionPerformed

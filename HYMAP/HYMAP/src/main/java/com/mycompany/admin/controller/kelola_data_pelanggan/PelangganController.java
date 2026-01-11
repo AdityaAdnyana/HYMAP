@@ -8,20 +8,27 @@ import com.mycompany.admin.view.kelola_data_pelanggan.DataPelanggan;
 import com.mycompany.admin.view.kelola_data_pelanggan.TambahDataPelanggan;
 import com.mycompany.admin.model.kelola_data_pelanggan.IPelangganRepository;
 import com.mycompany.admin.model.kelola_data_pelanggan.Pelanggan;
+import com.mycompany.admin.util.NavigationService;
 import com.mycompany.admin.view.DashboardMenu;
 import com.mycompany.admin.view.kelola_data_pelanggan.EditDataPelanggan;
+import com.mycompany.admin.view.kelola_data_pelanggan.table_add_button.TableActionEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 
 public class PelangganController {
 
     private DataPelanggan mainView;
+    private TambahDataPelanggan tambahView;
+    private EditDataPelanggan editView;
     private IPelangganRepository repository;
 
     public PelangganController(DataPelanggan mainView, IPelangganRepository repository) {
         this.mainView = mainView;
         this.repository = repository;
+        
 
         initController();
     }
@@ -31,10 +38,25 @@ public class PelangganController {
         refreshTable();
 
         // 2. Pasang Logic Tombol "Tambah" di Menu Utama
+        
+        
         mainView.addTambahListener(e -> showTambahView());
+        mainView.addMenuListener(e -> backToDashboard(mainView));
         
         // 3. Logic Edit/Hapus (Table Action)
         // ... (Kode TableAction Anda sudah benar) ...
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                handleEditRequest(row);
+            }
+
+            @Override
+            public void onDelete(int row) {
+                handleDeleteRequest(row);
+            }
+        };
+        mainView.setTableActionListener(event);
     }
     
     private void refreshTable() {
@@ -44,11 +66,12 @@ public class PelangganController {
     // --- LOGIKA MEMBUKA WINDOW TAMBAH & MENYIMPAN DATA ---
     private void showTambahView() {
         // Buat instance View Tambah baru
-        TambahDataPelanggan tambahView = new TambahDataPelanggan();
+        this.tambahView = new TambahDataPelanggan();
         
         // Sembunyikan menu utama
         mainView.setVisible(false);
         tambahView.setVisible(true);
+        tambahView.addMenuListener(e -> backToDashboard(tambahView));
 
         // A. PASANG LOGIKA TOMBOL SIMPAN (Disini penerapan SRP & MVC)
         tambahView.addSimpanListener(new ActionListener() {
@@ -68,16 +91,13 @@ public class PelangganController {
 
                 // 3. Buat Object Model
                 Pelanggan p = new Pelanggan(0, nama, alamat, telp, daerah);
-
-                // 4. Panggil Model/Repository untuk Simpan ke DB
+                
                 boolean success = repository.addPelanggan(p);
-
-                // 5. Update View berdasarkan hasil
                 if (success) {
                     tambahView.showMessage("Data berhasil disimpan!");
-                    tambahView.dispose();       // Tutup window tambah
-                    mainView.setVisible(true);  // Buka window utama
-                    refreshTable();             // Refresh tabel
+                    tambahView.dispose();   
+                    mainView.setVisible(true);  
+                    refreshTable();         
                 } else {
                     tambahView.showWarning("Gagal menyimpan data ke database.");
                 }
@@ -90,8 +110,22 @@ public class PelangganController {
             mainView.setVisible(true);
         });
     }
+    private void handleDeleteRequest(int row) {
+        DefaultTableModel model = (DefaultTableModel) mainView.getTable().getModel();
+        int id = (int) model.getValueAt(row, 0);
+        
+        int confirm = JOptionPane.showConfirmDialog(mainView, "Yakin hapus sopir ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            if (repository.deletePelanggan(id)) {
+                refreshTable(); 
+                JOptionPane.showMessageDialog(mainView, "Data Terhapus");
+            } else {
+                JOptionPane.showMessageDialog(mainView, "Gagal Menghapus");
+            }
+        }
+    }
+    
     private void handleEditRequest(int row) {
-        // 1. Ambil data dari Tabel baris yang dipilih
         DefaultTableModel model = (DefaultTableModel) mainView.getTable().getModel();
         int id = (int) model.getValueAt(row, 0);
         String nama = model.getValueAt(row, 1).toString();
@@ -100,9 +134,12 @@ public class PelangganController {
         String daerah = model.getValueAt(row, 4).toString();
 
         // 2. Buka View Edit (Inject data lama ke constructor)
-        EditDataPelanggan editView = new EditDataPelanggan(id, nama, alamat, telp, daerah);
+        editView = new EditDataPelanggan(id, nama, alamat, telp, daerah);
         mainView.setVisible(false);
         editView.setVisible(true);
+        editView.addMenuListener(e -> backToDashboard(editView));
+        
+
 
         // 3. Pasang Listener Tombol UPDATE di View Edit
         editView.addSimpanListener(e -> {
@@ -129,6 +166,7 @@ public class PelangganController {
             // E. Update UI berdasarkan hasil
             if (success) {
                 editView.showSuccessDialog();
+                delay(3);
                 editView.dispose();
                 mainView.setVisible(true);
                 refreshTable(); // Refresh tabel utama
@@ -143,11 +181,17 @@ public class PelangganController {
             mainView.setVisible(true);
         });
     }
-    
+    public void delay(int detik){
+        try{
+            Thread.sleep(detik *1000);
+        }catch(Exception a){
+            System.out.println(".....");
+        }
+    }
     // --- LOGIKA MENU BUTTON (Navigasi) ---
     // Tambahkan ini di initController(): mainView.addMenuListener(e -> backToDashboard());
-    private void backToDashboard() {
-        mainView.dispose();
-        new DashboardMenu().setVisible(true); // Navigasi sederhana
+    private void backToDashboard(javax.swing.JFrame view) {
+        NavigationService.toDashboard(view);
+        
     }
 }

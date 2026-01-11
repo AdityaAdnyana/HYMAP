@@ -4,42 +4,64 @@
  */
 package com.mycompany.admin.util; // Atau package controller
 
+import com.mycompany.admin.controller.AturJadwalPengiriman.JadwalController;
 import javax.swing.JFrame;
 
 // Import semua View, Model, Controller yang dibutuhkan
 import com.mycompany.admin.view.DashboardMenu;
 import com.mycompany.admin.controller.DashboardController;
+import com.mycompany.admin.controller.InfoPenjualan.InfoPenjualanController;
+import com.mycompany.admin.controller.kelola_data_pelanggan.PelangganController;
 import com.mycompany.admin.view.kelola_data_sopir.DataSopir;
 import com.mycompany.admin.model.kelola_data_sopir.SopirRepository;
 import com.mycompany.admin.controller.kelola_data_sopir.SopirController;
+import com.mycompany.admin.model.AturJadwalPengiriman.JadwalRepository;
+import com.mycompany.admin.model.InfoPenjualan.InfoPenjualanRepository;
+import com.mycompany.admin.model.kelola_data_pelanggan.PelangganRepository;
+import com.mycompany.admin.view.AturJadwalPengiriman.JadwalPengiriman;
+import com.mycompany.admin.view.AturJadwalPengiriman.PilihArmada;
+import com.mycompany.admin.view.InfoPenjualan.CetakLaporan;
+import com.mycompany.admin.view.kelola_data_pelanggan.DataPelanggan;
 // ... import lainnya
 
 public class NavigationService {
 
-    // Static method agar mudah dipanggil tanpa instansiasi
-    // Parameter 'currentFrame' digunakan untuk menutup jendela sebelumnya
     public static void toDashboard(JFrame currentFrame) {
-        if (currentFrame != null) {
-            currentFrame.dispose(); // Tutup jendela lama
-        }
-
-        // --- RAKIT MVC DASHBOARD DI SINI ---
-        DashboardMenu view = new DashboardMenu();
-        new DashboardController(view); // Controller otomatis memasang listener
+        DashboardMenu view = new DashboardMenu();     
+        new DashboardController(view);
         view.setVisible(true);
+        currentFrame.dispose();
     }
 
     public static void toKelolaSopir(JFrame currentFrame) {
-        if (currentFrame != null) {
-            currentFrame.dispose();
-        }
-
-        // --- RAKIT MVC SOPIR DI SINI ---
         DataSopir view = new DataSopir();
         SopirRepository repo = new SopirRepository();
         new SopirController(view, repo);
         view.setVisible(true);
+        currentFrame.dispose();
     }
     
-    // ... Tambahkan method toKelolaPelanggan, toLogin, dll ...
+    public static void toKelolaPelanggan(JFrame currentFrame) {
+        DataPelanggan view = new DataPelanggan();
+        PelangganRepository repo = new PelangganRepository();
+        new PelangganController(view, repo);
+        view.setVisible(true);
+        currentFrame.dispose();
+    }
+    
+    public static void toInfoPenjualan(JFrame currentFrame) {
+        CetakLaporan view = new CetakLaporan();
+        InfoPenjualanRepository repo = new InfoPenjualanRepository();
+        new InfoPenjualanController(repo);
+        view.setVisible(true);
+        currentFrame.dispose();
+    }
+    
+    public static void toAturJadwalPengiriman(JFrame currentFrame){
+        PilihArmada view = new PilihArmada();
+        JadwalRepository repo = new JadwalRepository();
+        new JadwalController(view, repo);
+        view.setVisible(true);
+        currentFrame.dispose();
+    }
 }

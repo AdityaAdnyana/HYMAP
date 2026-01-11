@@ -1,5 +1,6 @@
 package com.mycompany.admin.controller;
 
+import com.mycompany.admin.controller.InfoPenjualan.InfoPenjualanController;
 import com.mycompany.admin.view.DashboardMenu;
 
 // Import Modul Sopir (MVC)
@@ -13,9 +14,9 @@ import com.mycompany.admin.view.kelola_data_pelanggan.DataPelanggan;
 import com.mycompany.admin.model.kelola_data_pelanggan.PelangganRepository;
 import com.mycompany.admin.model.kelola_data_pelanggan.IPelangganRepository;
 import com.mycompany.admin.controller.kelola_data_pelanggan.PelangganController;
+import com.mycompany.admin.model.InfoPenjualan.InfoPenjualanRepository;
+import com.mycompany.admin.view.InfoPenjualan.CetakLaporan;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DashboardController {
     
@@ -30,7 +31,8 @@ public class DashboardController {
         // Mapping Tombol ke Fungsi Navigasi
         view.addKelolaSopirListener(e -> navigateToKelolaSopir());
         view.addKelolaPelangganListener(e -> navigateToKelolaPelanggan());
-        // view.addInfoPenjualanListener(e -> navigateToInfoPenjualan());
+        view.addKelolaPelangganListener(e -> navigateToKelolaPelanggan());
+        view.addInfoPenjualanListener(e -> navigateToInfoPenjualan());
     }
     
     // --- NAVIGATION LOGIC ---
@@ -66,11 +68,29 @@ public class DashboardController {
     }
     
     // Contoh placeholder untuk fitur lain
-    /*
+    
     private void navigateToInfoPenjualan() {
-         InfoPenjualan viewInfo = new InfoPenjualan();
-         // ... wiring logic ...
-         viewInfo.setVisible(true);
+         CetakLaporan infoView = new CetakLaporan();
+         InfoPenjualanRepository pelangganRepo = new InfoPenjualanRepository();
+        
+        // 3. Prepare Controller
+        new InfoPenjualanController(pelangganRepo);
+        
+        // 4. Transition
+        infoView.setVisible(true);
+        view.dispose();
     }
-    */
+    
+    private void navigateToAturjadwal() {
+         CetakLaporan infoView = new CetakLaporan();
+         InfoPenjualanRepository pelangganRepo = new InfoPenjualanRepository();
+        
+        // 3. Prepare Controller
+        new InfoPenjualanController(pelangganRepo);
+        
+        // 4. Transition
+        infoView.setVisible(true);
+        view.dispose();
+    }
+    
 }
