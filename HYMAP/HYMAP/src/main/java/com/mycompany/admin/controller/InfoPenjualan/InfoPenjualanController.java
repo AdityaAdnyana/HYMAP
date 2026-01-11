@@ -26,11 +26,13 @@ public class InfoPenjualanController {
 
     public InfoPenjualanController(IInfoPenjualanRepository repository) {
         this.repository = repository;
+        
     }
 
     // --- LOGIKA CETAK LAPORAN ---
     public void showCetakLaporan() {
         CetakLaporan view = new CetakLaporan();
+        view.addMenuListener(e -> NavigationService.toDashboard(view));
         
         // 1. Load Data Awal
         refreshLaporan(view);
@@ -48,8 +50,7 @@ public class InfoPenjualanController {
         
         // 4. Menu Back
         view.addMenuListener(e -> {
-            view.dispose();
-            new DashboardMenu().setVisible(true);
+            NavigationService.toDashboard(view);
         });
 
         view.setVisible(true);
@@ -70,6 +71,8 @@ public class InfoPenjualanController {
     // --- LOGIKA UPDATE STATUS PEMBAYARAN ---
     public void showUpdateStatus() {
         UpdateStatusPembayaran view = new UpdateStatusPembayaran();
+
+        view.addMenuListener(e -> NavigationService.toDashboard(view));
         
         // 1. Load Data Awal
         refreshStatusTable(view);
@@ -95,12 +98,6 @@ public class InfoPenjualanController {
         };
         view.setTableAction(event);
         
-        // 4. Menu Back
-        view.addMenuListener(e -> {
-            view.dispose();
-            new DashboardMenu().setVisible(true);
-        });
-
         view.setVisible(true);
     }
     
@@ -112,6 +109,8 @@ public class InfoPenjualanController {
     // --- LOGIKA DIALOG STATUS ---
     private void openStatusDialog(UpdateStatusPembayaran parentView, int id, String kirim, String bayar) {
         Status statusView = new Status(id, kirim, bayar);
+        
+        statusView.addMenuListener(e -> NavigationService.toDashboard(statusView));
         
         statusView.addSimpanListener(e -> {
             boolean success = repository.updateStatus(
@@ -130,6 +129,6 @@ public class InfoPenjualanController {
             }
         });
         
-        NavigationService.toDashboard(parentView);
+        statusView.setVisible(true);
     }
 }
