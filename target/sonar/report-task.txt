@@ -1,0 +1,6 @@
+projectKey=HYMAP
+serverUrl=http://localhost:9000
+serverVersion=25.11.0.114957
+dashboardUrl=http://localhost:9000/dashboard?id=HYMAP
+ceTaskId=fd772d8f-346a-40b2-b8e2-af830c64cc73
+ceTaskUrl=http://localhost:9000/api/ce/task?id=fd772d8f-346a-40b2-b8e2-af830c64cc73
