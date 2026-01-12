@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.admin.controller.InfoPenjualan;
 
 import com.mycompany.admin.model.InfoPenjualan.IInfoPenjualanRepository;
 import com.mycompany.admin.model.InfoPenjualan.LaporanPenjualan;
 import com.mycompany.admin.util.NavigationService;
-import com.mycompany.admin.view.DashboardMenu;
 import com.mycompany.admin.view.InfoPenjualan.CetakLaporan;
 import com.mycompany.admin.view.InfoPenjualan.Status;
 import com.mycompany.admin.view.InfoPenjualan.TableAddButton.StatusPembayaran.TableActionEvent;
@@ -16,10 +11,6 @@ import java.util.Calendar;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author R9480
- */
 public class InfoPenjualanController {
     
     private IInfoPenjualanRepository repository;
@@ -31,27 +22,19 @@ public class InfoPenjualanController {
     // --- LOGIKA CETAK LAPORAN ---
     public void showCetakLaporan() {
         CetakLaporan view = new CetakLaporan();
+        view.addMenuListener(e -> NavigationService.toDashboard(view));
         
-        // 1. Load Data Awal
         refreshLaporan(view);
         
-        // 2. Listener Tanggal Berubah
         view.addDateChangeListener(evt -> {
             if ("date".equals(evt.getPropertyName())) {
                 refreshLaporan(view);
             }
         });
         
-        // 3. Listener Tombol Navigasi Tanggal
         view.addPrevDateListener(e -> adjustDate(view, -1));
         view.addNextDateListener(e -> adjustDate(view, 1));
         
-        // 4. Menu Back
-        view.addMenuListener(e -> {
-            view.dispose();
-            new DashboardMenu().setVisible(true);
-        });
-
         view.setVisible(true);
     }
 
@@ -60,28 +43,49 @@ public class InfoPenjualanController {
         view.setTableData(data);
     }
 
-    private void adjustDate(CetakLaporan view, int days) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(view.getSelectedDate());
-        cal.add(Calendar.DAY_OF_MONTH, days);
-        view.setDate(cal.getTime()); // Ini akan memicu DateChangeListener
+    // Letakkan di dalam class InfoPenjualanController.java
+private void adjustDate(javax.swing.JFrame view, int days) {
+    java.util.Date currentDate = null;
+    
+    // 1. Cek Layar mana yang sedang mengirim perintah, lalu ambil tanggalnya
+    if (view instanceof CetakLaporan) {
+        currentDate = ((CetakLaporan) view).getSelectedDate();
+    } else if (view instanceof UpdateStatusPembayaran) {
+        currentDate = ((UpdateStatusPembayaran) view).getSelectedDate();
     }
+
+    if (currentDate != null) {
+        // 2. Logika Hitung Tanggal (Tambah/Kurang Hari)
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.add(java.util.Calendar.DAY_OF_MONTH, days);
+        java.util.Date newDate = cal.getTime();
+        
+        // 3. Kembalikan tanggal baru ke Layar yang bersangkutan
+        if (view instanceof CetakLaporan) {
+            ((CetakLaporan) view).setDate(newDate);
+        } else if (view instanceof UpdateStatusPembayaran) {
+            ((UpdateStatusPembayaran) view).setDate(newDate);
+        }
+    }
+}
 
     // --- LOGIKA UPDATE STATUS PEMBAYARAN ---
     public void showUpdateStatus() {
         UpdateStatusPembayaran view = new UpdateStatusPembayaran();
+        view.addMenuListener(e -> NavigationService.toDashboard(view));
         
-        // 1. Load Data Awal
         refreshStatusTable(view);
         
-        // 2. Listener Tanggal
         view.addDateChangeListener(evt -> {
              if ("date".equals(evt.getPropertyName())) {
                 refreshStatusTable(view);
             }
         });
+
+        view.addPrevDateListener(e -> adjustDate(view, -1));
+    view.addNextDateListener(e -> adjustDate(view, 1));
         
-        // 3. Listener Tombol Edit di Tabel
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onEDIT(int row) {
@@ -94,13 +98,6 @@ public class InfoPenjualanController {
             }
         };
         view.setTableAction(event);
-        
-        // 4. Menu Back
-        view.addMenuListener(e -> {
-            view.dispose();
-            new DashboardMenu().setVisible(true);
-        });
-
         view.setVisible(true);
     }
     
@@ -109,13 +106,17 @@ public class InfoPenjualanController {
         view.setTableData(data);
     }
 
-    // --- LOGIKA DIALOG STATUS ---
     private void openStatusDialog(UpdateStatusPembayaran parentView, int id, String kirim, String bayar) {
         Status statusView = new Status(id, kirim, bayar);
         
+        // Ambil tanggal dari JDateChooser di view utama agar update masuk ke tanggal yang benar
+        java.util.Date selectedDate = parentView.getSelectedDate(); 
+
         statusView.addSimpanListener(e -> {
+            // Memanggil repository dengan 4 parameter (id, date, statusKirim, statusBayar)
             boolean success = repository.updateStatus(
                 statusView.getPelangganId(), 
+                selectedDate, 
                 statusView.getStatusPengiriman(), 
                 statusView.getStatusPembayaran()
             );
@@ -123,13 +124,15 @@ public class InfoPenjualanController {
             if (success) {
                 statusView.showMessage("Status berhasil diperbarui.");
                 statusView.dispose();
-                parentView.setVisible(true);
-                refreshStatusTable(parentView); // Refresh tabel utama
+                refreshStatusTable(parentView); // Refresh tabel di belakangnya
             } else {
-                statusView.showMessage("Gagal memperbarui status.");
+                statusView.showMessage("Gagal memperbarui status ke database.");
             }
         });
+
+        // Tambahkan listener menu untuk menutup dialog jika batal
+        statusView.addMenuListener(e -> statusView.dispose());
         
-        NavigationService.toDashboard(parentView);
+        statusView.setVisible(true);
     }
 }

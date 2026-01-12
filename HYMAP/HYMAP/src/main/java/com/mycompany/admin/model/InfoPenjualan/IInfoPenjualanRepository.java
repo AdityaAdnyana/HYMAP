@@ -11,9 +11,10 @@ import java.util.List;
  *
  * @author R9480
  */
+
+
 public interface IInfoPenjualanRepository {
-
     List<LaporanPenjualan> getLaporanByDate(Date date);
-
-    boolean updateStatus(int id, String statusPengiriman, String statusPembayaran);
+    // Pastikan ada parameter Date di sini
+    boolean updateStatus(int id, Date date, String statusPengiriman, String statusPembayaran);
 }

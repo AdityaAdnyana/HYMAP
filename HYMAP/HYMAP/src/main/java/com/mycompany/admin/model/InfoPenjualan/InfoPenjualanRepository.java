@@ -1,50 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.admin.model.InfoPenjualan;
 
 import com.mycompany.admin.config.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author R9480
- */
 public class InfoPenjualanRepository implements IInfoPenjualanRepository {
 
+    // Helper method untuk normalisasi tanggal ke 00:00:00
+    private java.sql.Date toSqlDate(Date date) {
+        if (date == null) return null;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return new java.sql.Date(cal.getTimeInMillis());
+    }
+
     @Override
-    public List<LaporanPenjualan> getLaporanByDate(java.util.Date date) {
+    public List<LaporanPenjualan> getLaporanByDate(Date date) {
         List<LaporanPenjualan> list = new ArrayList<>();
-        
-        // Logika query filter tanggal (sama seperti kode asli Anda)
-        String sql;
-        if (date == null) {
-            sql = "SELECT id, nama, alamat, jumlah_galon, harga_per_galon, " +
-                  "(jumlah_galon * harga_per_galon) AS total_harga, " +
-                  "status_pengiriman, status_pembayaran " +
-                  "FROM pelanggan ORDER BY nama ASC";
-        } else {
-            sql = "SELECT id, nama, alamat, jumlah_galon, harga_per_galon, " +
-                  "(jumlah_galon * harga_per_galon) AS total_harga, " +
-                  "status_pengiriman, status_pembayaran " +
-                  "FROM pelanggan " +
-                  "WHERE ? >= tgl_mulai_rentang AND rentang_pengiriman > 0 " +
-                  "AND DATEDIFF(?, tgl_mulai_rentang) % rentang_pengiriman = 0 " +
-                  "ORDER BY nama ASC";
-        }
+        java.sql.Date sqlDate = toSqlDate(date != null ? date : new Date());
+
+      
+        String sql = "SELECT p.id, p.nama, p.alamat, p.jumlah_galon, p.harga_per_galon, " +
+                     "(p.jumlah_galon * p.harga_per_galon) AS total_harga, " +
+                     "COALESCE(k.status, 'Belum Terkirim') AS status_pengiriman, " +
+                     "COALESCE(k.status_pembayaran, 'bon') AS status_pembayaran " +
+                     "FROM pelanggan p " +
+                     "LEFT JOIN pengiriman k ON p.id = k.pelanggan_id AND k.tanggal_pengiriman = ? " +
+                     "WHERE ? >= p.tgl_mulai_rentang AND p.rentang_pengiriman > 0 " +
+                     "AND DATEDIFF(?, p.tgl_mulai_rentang) % p.rentang_pengiriman = 0 " +
+                     "ORDER BY p.nama ASC";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            java.sql.Date sqlDate = (date != null) ? new java.sql.Date(date.getTime()) : null;
-
-            if (sqlDate != null) {
-                pstmt.setDate(1, sqlDate);
-                pstmt.setDate(2, sqlDate);
-            }
+            pstmt.setDate(1, sqlDate);
+            pstmt.setDate(2, sqlDate);
+            pstmt.setDate(3, sqlDate);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -57,7 +55,7 @@ public class InfoPenjualanRepository implements IInfoPenjualanRepository {
                         rs.getDouble("total_harga"),
                         rs.getString("status_pengiriman"),
                         rs.getString("status_pembayaran"),
-                        sqlDate // Menggunakan tanggal filter sebagai tgl laporan
+                        sqlDate 
                     ));
                 }
             }
@@ -68,14 +66,21 @@ public class InfoPenjualanRepository implements IInfoPenjualanRepository {
     }
 
     @Override
-    public boolean updateStatus(int id, String statusKirim, String statusBayar) {
-        String sql = "UPDATE pelanggan SET status_pengiriman = ?, status_pembayaran = ? WHERE id = ?";
+    public boolean updateStatus(int id, Date date, String statusPengiriman, String statusPembayaran) {
+        java.sql.Date sqlDate = toSqlDate(date);
+        
+        
+        String sql = "INSERT INTO pengiriman (pelanggan_id, tanggal_pengiriman, status, status_pembayaran) " +
+                     "VALUES (?, ?, ?, ?) " +
+                     "ON DUPLICATE KEY UPDATE status = VALUES(status), status_pembayaran = VALUES(status_pembayaran)";
+        
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            pstmt.setString(1, statusKirim);
-            pstmt.setString(2, statusBayar);
-            pstmt.setInt(3, id);
+            pstmt.setInt(1, id);
+            pstmt.setDate(2, sqlDate);
+            pstmt.setString(3, statusPengiriman);
+            pstmt.setString(4, statusPembayaran);
 
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {

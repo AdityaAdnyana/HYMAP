@@ -45,6 +45,10 @@ public class Status extends javax.swing.JFrame {
     public void addSimpanListener(ActionListener listener) {
         SIMPAN_BUTTON.addActionListener(listener);
     }
+
+    public void addMenuListener(ActionListener listener) {
+        MENU_BUTTON.addActionListener(listener);
+    }
     
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(this, msg);

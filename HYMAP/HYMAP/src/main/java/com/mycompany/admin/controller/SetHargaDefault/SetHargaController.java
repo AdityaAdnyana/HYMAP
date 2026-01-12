@@ -5,6 +5,7 @@
 package com.mycompany.admin.controller.SetHargaDefault;
 
 import com.mycompany.admin.model.SetHarga.ISetHargaRepository;
+import com.mycompany.admin.util.NavigationService;
 import com.mycompany.admin.view.DashboardMenu;
 import com.mycompany.admin.view.SetHargaDefault.SetHargaDefault;
 
@@ -63,8 +64,7 @@ public class SetHargaController {
 
         // 3. Logic Tombol Menu (Back)
         view.addMenuListener(e -> {
-            view.dispose(); // Tutup window ini
-            new DashboardMenu().setVisible(true);
+            NavigationService.toDashboard(view);
         });
         
         // Tampilkan View

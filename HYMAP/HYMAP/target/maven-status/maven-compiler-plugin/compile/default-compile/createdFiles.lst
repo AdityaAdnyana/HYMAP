@@ -1,3 +1,4 @@
+com\mycompany\admin\controller\SetHargaDefault\SetHargaController.class
 com\mycompany\admin\view\kelola_data_sopir\table_add_button\ActionButton$1.class
 com\mycompany\admin\view\kelola_data_sopir\table_add_button\TableActionCellEditor.class
 com\mycompany\admin\view\AturJadwalPengiriman\JadwalPengiriman$2.class
@@ -7,6 +8,7 @@ com\mycompany\admin\view\InfoPenjualan\Status$2.class
 com\mycompany\admin\view\kelola_data_sopir\DataSopir.class
 com\mycompany\admin\view\kelola_data_sopir\RegistrasiSopir$1.class
 com\mycompany\admin\view\kelola_data_pelanggan\DataPelanggan$3.class
+com\mycompany\admin\view\SetHargaDefault\SetHargaDefault$2.class
 com\mycompany\admin\controller\kelola_data_sopir\SopirController$1.class
 com\mycompany\admin\view\DashboardMenu$9.class
 com\mycompany\admin\view\kelola_data_sopir\table_add_button\PanelAction$3.class
@@ -49,6 +51,7 @@ com\mycompany\admin\view\AturJadwalPengiriman\PilihArmada$2.class
 com\mycompany\admin\view\kelola_data_pelanggan\EditDataPelanggan$4.class
 com\mycompany\admin\view\kelola_data_pelanggan\TambahDataPelanggan$1.class
 com\mycompany\admin\view\kelola_data_sopir\DataSopir$3.class
+com\mycompany\admin\view\SetHargaDefault\SetHargaDefault.class
 com\mycompany\admin\view\kelola_data_pelanggan\DataPelanggan$2.class
 com\mycompany\admin\view\kelola_data_pelanggan\EditDataPelanggan$3.class
 com\mycompany\admin\view\kelola_data_pelanggan\table_add_button\PanelAction$2.class
@@ -59,12 +62,14 @@ com\mycompany\admin\view\DashboardMenu$6.class
 com\mycompany\admin\view\kelola_data_sopir\EditDataSopir$1.class
 com\mycompany\admin\view\kelola_data_sopir\table_add_button\PanelAction.class
 com\mycompany\admin\view\login\AdminLogin$1.class
+com\mycompany\admin\view\SetHargaDefault\SetHargaDefault$3.class
 com\mycompany\admin\view\kelola_data_pelanggan\table_add_button\ActionButton$1.class
 com\mycompany\admin\view\AturJadwalPengiriman\PilihArmada$1.class
 com\mycompany\admin\view\AturJadwalPengiriman\PilihArmada.class
 com\mycompany\admin\view\kelola_data_pelanggan\TambahDataPelanggan$2.class
 com\mycompany\admin\view\AturJadwalPengiriman\JadwalPengiriman.class
 com\mycompany\admin\view\kelola_data_sopir\DataSopir$2.class
+com\mycompany\admin\model\SetHarga\ISetHargaRepository.class
 com\mycompany\admin\view\InfoPenjualan\CetakLaporan$4.class
 com\mycompany\admin\view\kelola_data_sopir\table_add_button\TableActionEvent.class
 com\mycompany\admin\controller\kelola_data_pelanggan\PelangganController$2.class
@@ -84,8 +89,10 @@ com\mycompany\admin\view\AturJadwalPengiriman\JadwalPengiriman$1.class
 com\mycompany\admin\view\AturJadwalPengiriman\TablleButton\PanelAction$2.class
 com\mycompany\admin\controller\login\LoginController$LoginListener.class
 com\mycompany\admin\view\InfoPenjualan\Status$3.class
+com\mycompany\admin\view\SetHargaDefault\SetHargaDefault$1.class
 com\mycompany\admin\view\kelola_data_pelanggan\TambahDataPelanggan$6.class
 com\mycompany\admin\view\kelola_data_sopir\EditDataSopir$3.class
+com\mycompany\admin\model\SetHarga\SetHargaRepository.class
 com\mycompany\admin\view\AturJadwalPengiriman\JadwalPengiriman$3.class
 com\mycompany\admin\view\kelola_data_pelanggan\DataPelanggan$1.class
 com\mycompany\admin\view\kelola_data_sopir\table_add_button\TableActionCellRenderer.class

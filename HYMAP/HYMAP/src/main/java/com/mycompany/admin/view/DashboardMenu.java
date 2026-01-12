@@ -37,12 +37,23 @@ public class DashboardMenu extends javax.swing.JFrame {
         KELOLA_DATA_PELANGGAN_TBUTTON.addActionListener(listener);
     }
     
-    public void addInfoPenjualanListener(ActionListener listener) {
-        INFO_PENJUALAN_BUTTON.addActionListener(listener);
-    }
+//    public void addInfoPenjualanListener(ActionListener listener) {
+//        INFO_PENJUALAN_BUTTON.addActionListener(listener);
+//    }
     
-    public void addAturJadwalPengiriman(ActionListener listener){
+    public void addAturJadwalListener(ActionListener listener){
         ATUR_JADWAL_KIRIMAN_BUTTON.addActionListener(listener);
+    }
+
+    public void addCetakLaporanListener(ActionListener listener) {
+        CETAK_LAPORAN_BUTTON.addActionListener(listener);
+    }
+    public void addUpdateStatusPembayaranListener(ActionListener listener) {
+        UPDATE_STATUS_PEMBAYARAN_BUTTON.addActionListener(listener);
+    }
+
+    public void addKelolaGallonListener(ActionListener listener) {
+        KELOLA_DATA_GALON_BUTTON.addActionListener(listener);
     }
     
     private void toggleSidebar(boolean showMenu) {
@@ -393,7 +404,7 @@ public class DashboardMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void INFO_PENJUALAN_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_INFO_PENJUALAN_BUTTONActionPerformed
-
+        INFO_PENJUALAN_DIALOG.setVisible(true);
     }//GEN-LAST:event_INFO_PENJUALAN_BUTTONActionPerformed
 
     private void ATUR_JADWAL_KIRIMAN_BUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATUR_JADWAL_KIRIMAN_BUTTONActionPerformed
