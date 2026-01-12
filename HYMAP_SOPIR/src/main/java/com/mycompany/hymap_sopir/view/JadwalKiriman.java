@@ -64,7 +64,9 @@ public class JadwalKiriman extends javax.swing.JFrame {
             });
         }
     }
-    
+    public javax.swing.JTable getTable() {
+    return tableKiriman; 
+}
     public void updateStatusCell(int row, String status) {
         modelKiriman.setValueAt(status, row, 3);
     }
@@ -366,17 +368,11 @@ public class JadwalKiriman extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(jDateChooser1.getDate());
-        cal.add(Calendar.DAY_OF_MONTH, -1);
-        jDateChooser1.setDate(cal.getTime());
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(jDateChooser1.getDate());
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        jDateChooser1.setDate(cal.getTime());
+      
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

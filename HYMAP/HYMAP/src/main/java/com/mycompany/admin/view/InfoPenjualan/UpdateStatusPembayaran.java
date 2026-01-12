@@ -46,7 +46,16 @@ public class UpdateStatusPembayaran extends javax.swing.JFrame {
     public Date getSelectedDate() {
         return jDateChooser3.getDate();
     }
-    
+    public void setDate(Date date) {
+    jDateChooser3.setDate(date);
+}
+public void addPrevDateListener(java.awt.event.ActionListener listener) {
+    jButton5.addActionListener(listener); 
+}
+
+public void addNextDateListener(java.awt.event.ActionListener listener) {
+    jButton6.addActionListener(listener); 
+}
     public void addDateChangeListener(PropertyChangeListener listener) {
         jDateChooser3.addPropertyChangeListener("date", listener);
     }
